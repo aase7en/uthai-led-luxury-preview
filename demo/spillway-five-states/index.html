@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UTH[AI] — Luxury Spillway Motion Proof</title>
+<meta name="description" content="Visual study of five simulated spillway opening levels with animated water, whitewater, spray and ripples. Not live operational data.">
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;color:#eaf8ff;background:#030b13}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 74% 57% at 47% -15%,#19496d 0%,transparent 85%),linear-gradient(120deg,#051624,#02070e)}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(#a8e9ff05 1px,transparent 1px),linear-gradient(90deg,#a8e9ff05 1px,transparent 1px);background-size:34px 34px;pointer-events:none}main{width:min(1130px,100%);padding:26px 20px 64px;margin:auto;position:relative}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:22px;border-bottom:1px solid #34647b}
+.brand{color:#7bdfff;font-weight:850;font-size:11px;letter-spacing:2.4px}h1{font-size:clamp(25px,3.7vw,40px);letter-spacing:-1.3px;line-height:1.15;margin:14px 0 6px;font-weight:800}h1 em{font-style:normal;background:linear-gradient(100deg,#d4f9ff,#3ecafd);color:transparent;background-clip:text}
+.intro{font-size:13px;color:#aac6d5;max-width:710px;line-height:1.85;margin:0}.pill{font-size:11px;letter-spacing:.6px;border:1px solid #3683a6;padding:8px 12px;border-radius:99px;color:#9be8ff;background:#072c41a6;font-weight:800;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(290px,.47fr);gap:19px;align-items:start;margin-top:22px}.stage-card,.ref-card,.controls-card{border:1px solid #285776;background:linear-gradient(144deg,#102b3ee3,#071623f2 50%,#04101a);box-shadow:0 20px 45px #0008,inset 0 1px #a4e7ff15;border-radius:19px;padding:16px}
+.label{color:#91bcd1;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800}.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:13px}.card-head strong{display:block;font-size:15px;margin-top:4px}.art-badge{font-size:10px;color:#c7eaff;border:1px solid #447896;border-radius:7px;padding:5px 8px;background:#0b31479c}
+.canvas-box{position:relative;overflow:hidden;border:1px solid #50c9ff9a;border-radius:11px;box-shadow:0 0 18px #0ad2ff1c,inset 0 0 12px #82e5ff1b;background:#051c35}.canvas-box canvas{display:block;width:100%;aspect-ratio:822 / 248;touch-action:pan-y}
+.frame-light{position:absolute;inset:0;pointer-events:none;border-radius:11px;box-shadow:inset 0 1px #e3ffff79,inset 0 -2px #1eb7ef69}
+.stage-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:10px}.stage-bar .state{font-weight:800;font-size:12px;color:#b8edff}.stage-bar .sim{font-size:10px;color:#89b6c7}
+.controls-card{margin-top:15px}.control-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:11px}.control-head strong{font-size:13px}.states{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}button{font-family:inherit;cursor:pointer}button.level{font-weight:800;letter-spacing:.3px;padding:12px 4px;border:1px solid #46728b;background:linear-gradient(#1a3d53,#0a2434);border-radius:9px;color:#c9e8f7;min-height:42px}button.level:hover{border-color:#a4eaff}button.level.selected{background:linear-gradient(#a6f7ff,#3ac6e9);border-color:#78efff;color:#052334;box-shadow:0 0 20px #21d1ff3b}button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}.pause{background:#122f40;border:1px solid #4d8daa;color:#ccf0ff;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:700}.note{font-size:11px;color:#9ac0d2;line-height:1.7}
+.reference{display:block;width:100%;border-radius:10px;border:1px solid #3c7896}.caption{font-size:11px;line-height:1.8;color:#98bccc;margin-top:11px}.metric{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #2b5063;font-size:11px;color:#b6dbe9}.metric strong{margin-left:auto;font-weight:900;color:#94e7ff}.metric:first-of-type{border-top:0}.reference-sub{font-weight:780;color:#d4f6ff;margin:15px 0 11px;font-size:13px}.dots{display:flex;gap:6px}.dots i{width:6px;height:6px;border-radius:99px;background:#3bddfb;box-shadow:0 0 8px #20bcf9;opacity:.4}.dots i.on{opacity:1}
+.compare-details{border-top:1px solid #245369;margin-top:15px;padding-top:12px;color:#a9d0e1;font-size:11px;line-height:1.85}
+footer{color:#7893a4;font-size:11px;line-height:1.8;padding-top:16px}footer b{color:#b4deed}a{color:#88e0fb}
+@media(max-width:790px){.layout{grid-template-columns:1fr}.header{flex-direction:column;gap:10px}main{padding:19px 12px 36px}.stage-card,.controls-card,.ref-card{padding:13px}.card-head strong{font-size:13px}.states{gap:5px}.stage-bar{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body><main>
+<header class="header"><div><div class="brand">UTH[AI] / EXPERIMENTAL VISUAL STUDIO</div><h1><em>Luxury Spillway</em> — Motion Proof</h1><p class="intro">ทดลองภาพเคลื่อนไหวน้ำไหล 5 ระดับ ด้วยสีแบบภาพอ้างอิง: electric cyan, whitewater foam, mist, ripples และแสงสะท้อนบนผิวน้ำ</p></div><div class="pill">ISOLATED POC · NOT LIVE DATA</div></header>
+<div class="layout"><div>
+<section class="stage-card"><div class="card-head"><div><span class="label">01 / MOVING WATER STUDY</span><strong>ประตูระบายน้ำ — ทดลองความแรงของมวลน้ำ</strong></div><span class="art-badge">ANIMATED · LOOP</span></div>
+<div class="canvas-box"><canvas id="scene" width="822" height="248" role="img" aria-label="ภาพเคลื่อนไหวประตูระบายน้ำจำลอง เลือกได้ห้าระดับ"></canvas><div class="frame-light"></div></div>
+<div class="stage-bar"><div class="state" id="state-desc" aria-live="polite">100% · Powerful release</div><div class="sim">ART STUDY · ปริมาณน้ำไม่อ้างอิงการเปิดประตูจริง</div></div></section>
+<section class="controls-card"><div class="control-head"><strong>เลือกระดับการเปิดประตู</strong><span class="label">5 ANIMATED STATES</span></div><div class="states" role="group" aria-label="เลือกระดับการเปิดประตู"><button class="level" data-level="0" aria-pressed="false">0%</button><button class="level" data-level="25" aria-pressed="false">25%</button><button class="level" data-level="50" aria-pressed="false">50%</button><button class="level" data-level="75" aria-pressed="false">75%</button><button class="level selected" data-level="100" aria-pressed="true">100%</button></div>
+<div class="actions"><button id="pause" class="pause" aria-pressed="false">⏸ หยุดภาพ</button><span class="note">กดเปลี่ยนระดับได้ทันที · เล่นวนอัตโนมัติ</span></div></section>
+</div><aside class="ref-card"><div class="card-head"><div><div class="label">02 / ORIGINAL REFERENCE</div><strong>เทียบภาพต้นฉบับ</strong></div><span class="art-badge">REFERENCE ONLY</span></div><img class="reference" src="assets/reference.jpg" alt="ภาพอ้างอิงประตูน้ำฟ้าเรืองแสงและฟองขาว หน้าจอ LED พร้อมข้อความระดับน้ำ ซึ่งเป็นข้อมูลในภาพต้นฉบับไม่ใช่ข้อมูลปัจจุบัน">
+<p class="caption">ภาพอ้างอิงที่คุณแนบมาใช้เทียบโทนสีและตำแหน่งน้ำเท่านั้น ตัวเลขวันที่/ระดับน้ำในภาพเป็นส่วนหนึ่งของภาพ ไม่ใช่ข้อมูลที่ Demo นี้อ่านจาก API</p>
+<div class="reference-sub">องค์ประกอบ Motion ที่กำลังทดลอง</div>
+<div class="metric"><span>Animated waterfall texture</span><strong id="water-mode">100%</strong></div>
+<div class="metric"><span>Foam / splash density</span><strong id="foam-mode">มาก</strong></div>
+<div class="metric"><span>Spray & mist</span><strong id="mist-mode">หนาแน่น</strong></div>
+<div class="metric"><span>Ripples / turbulent highlights</span><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+<div class="compare-details"><b>ข้อจำกัด Demo รอบนี้</b> — ใช้ Texture จากภาพอ้างอิงร่วมกับ Canvas particles และการเลื่อนกระแสน้ำเพื่อพิสูจน์ทิศทางภาพเคลื่อนไหว ไม่ใช่ Houdini/Blender FLIP Fluid Simulation ที่คำนวณน้ำจริง ความสมจริงของฟองแบบภาพยนตร์ต้องทำขั้นตอน Pre-render เพิ่ม</div></aside></div>
+<footer><b>Design prototype only.</b> ทั้ง 5 ระดับเป็นสถานการณ์จำลองเพื่อทดลองกราฟิก ไม่ใช่ข้อมูลการเปิดประตูจริงและไม่ใช่ระบบควบคุมเขื่อน · ไม่มีการเรียก API ภายนอก · รองรับ Reduced Motion</footer>
+</main>
+<script>
+(()=>{
+'use strict';
+const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d',{alpha:false});
+const source=new Image();source.src='assets/reference.jpg';
+const W=822,H=248;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const states=[0,25,50,75,100],copy={0:['0% · Gates closed','ไม่มีน้ำไหล','น้อยมาก'],25:['25% · Gentle release','บาง','บางเบา'],50:['50% · Medium release','ปานกลาง','ปานกลาง'],75:['75% · Strong release','มาก','มาก'],100:['100% · Powerful release','มาก','หนาแน่น']};
+let level=100,target=1,current=1,running=!reduced,last=performance.now(),clock=0,raf=0;
+const rand=(i,seed=123)=>{let x=Math.sin(i*127.1+seed*311.7)*43758.5453;return x-Math.floor(x)};
+const particles=Array.from({length:330},(_,i)=>({seed:rand(i),phase:rand(i,2),offset:rand(i,3),size:rand(i,4),height:rand(i,5),sway:rand(i,6),wing:rand(i,7),n:i}));
+const droplets=Array.from({length:70},(_,i)=>({p:rand(i,23),x:rand(i,41),side:rand(i,38),sz:rand(i,56),jitter:rand(i,57),n:i}));
+const levels=Array.from(document.querySelectorAll('button.level'));
+function choose(n){level=n;target=n/100;for(const b of levels){let yes=Number(b.dataset.level)===n;b.classList.toggle('selected',yes);b.setAttribute('aria-pressed',String(yes));}document.getElementById('state-desc').textContent=copy[n][0];document.getElementById('water-mode').textContent=n+'%';document.getElementById('foam-mode').textContent=copy[n][1];document.getElementById('mist-mode').textContent=copy[n][2];const k=n/25;document.querySelectorAll('.dots i').forEach((x,i)=>x.classList.toggle('on',i<=k));if(!running&&source.complete&&source.naturalWidth){current=target;render(clock);}}
+levels.forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.level))));
+const pauseBtn=document.getElementById('pause');function pausedUI(){pauseBtn.textContent=running?'⏸ หยุดภาพ':'▶ เล่นภาพ';pauseBtn.setAttribute('aria-pressed',String(!running));}pauseBtn.addEventListener('click',()=>{running=!running;pausedUI();if(running){last=performance.now();raf=requestAnimationFrame(tick);}else cancelAnimationFrame(raf);});pausedUI();
+function gradient(x0,y0,x1,y1,stops){const g=ctx.createLinearGradient(x0,y0,x1,y1);stops.forEach(([a,b])=>g.addColorStop(a,b));return g;}
+function poly(coords){ctx.beginPath();coords.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();}
+function drawBase(p,t){
+ ctx.clearRect(0,0,W,H);ctx.drawImage(source,0,0,W,H);
+ if(p>.998)return;
+ // Reference photographic gate retained. As shutter closes, veil hides the source still-water
+ // and dynamically renders a narrower synthetic water curtain on top.
+ const veil=1-p;
+ ctx.save();ctx.globalAlpha=Math.min(.98,veil*.96);
+ ctx.fillStyle=gradient(215,65,443,213,[[0,'rgba(2,17,34,.93)'],[.6,'rgba(2,14,31,.98)'],[1,'rgba(4,25,45,.88)']]);
+ ctx.fillRect(226,65,211,156);
+ ctx.restore();
+ // Gate shutters: dark steel sections with warm frame lighting.
+ for(let gate=0;gate<2;gate++){
+   const x=251+gate*91,w=73,openHeight=72*p;
+   ctx.save();ctx.globalAlpha=Math.min(.94,veil*.96);
+   const shutter=gradient(x,65,x+w,65,[[0,'#061c31'],[.24,'#17415f'],[.46,'#071d31'],[.7,'#174363'],[1,'#041627']]);
+   ctx.fillStyle=shutter;ctx.fillRect(x,66,w,88-openHeight*.4);
+   ctx.strokeStyle='rgba(128,198,224,.46)';ctx.lineWidth=1;
+   for(let s=0;s<5;s++){const yy=69+s*16;ctx.beginPath();ctx.moveTo(x+4,yy);ctx.lineTo(x+w-4,yy);ctx.stroke()}
+   ctx.fillStyle='#d5a25d';ctx.fillRect(x,64,w,2.4);
+   ctx.restore();
+ }
+ // Restore the dark water foreground when the gate is fully closed.
+ ctx.save();ctx.globalAlpha=Math.pow(veil,1.4)*.78;
+ ctx.fillStyle=gradient(0,150,0,235,[[0,'#061934'],[.4,'#052a50'],[.8,'#041427'],[1,'#020f1a']]);ctx.fillRect(0,151,822,97);ctx.restore();
+}
+function waterfall(gx,p,t,index){
+ if(p<.025)return;
+ const width=72*(.15+.85*p), x=gx+(76-width)/2;
+ const foot=193+6*Math.sin(t*2.3+index),y0=76,mid=123;
+ ctx.save();
+ poly([[x,y0],[x+width,y0],[x+width*1.18,mid],[x+width*1.35,foot],[x-width*.22,foot]]);ctx.clip();
+ const body=gradient(x,y0,x+width,foot,[[0,'rgba(0,51,125,.1)'],[.23,'rgba(0,124,245,.6)'],[.42,'rgba(38,222,255,.66)'],[.53,'rgba(178,248,255,.75)'],[.72,'rgba(0,120,230,.62)'],[1,'rgba(0,41,155,.4)']]);
+ ctx.globalAlpha=Math.min(.56,.18+.33*p);ctx.fillStyle=body;ctx.fillRect(x-18,y0,width*1.65,foot-y0+12);
+ ctx.globalAlpha=.12+.18*p;ctx.globalCompositeOperation='screen';
+ // Sliding photographic water streaks from user reference, not a flat gradient.
+ if(source.complete&&source.naturalWidth){const sy=77+((t*56+index*29)%39);const left=250+index*94;ctx.drawImage(source,left,sy,74,68,x-7,y0,width*1.45,86);
+ ctx.drawImage(source,left,75+((t*45+20)%48),74,52,x-11,mid,width*1.55,foot-mid+18);}
+ ctx.globalCompositeOperation='screen';
+ for(let j=0;j<28;j++){
+   let pos=rand(j,index+5),wave=Math.sin(t*2.4+pos*34+j)*5;
+   let px=x+pos*width,phase=(t*(55+rand(j,8)*38)+rand(j,6)*141)%146;
+   ctx.beginPath();ctx.moveTo(px+wave,y0+phase-8);ctx.bezierCurveTo(px+4+wave,y0+phase+12,px+9+wave,y0+phase+21,px+wave+10,y0+phase+32);
+   ctx.strokeStyle='rgba(172,251,255,'+(.10+.32*rand(j,12))*p+')';ctx.lineWidth=.7+rand(j,4)*2.1;ctx.stroke();
+ }
+ ctx.restore();
+ // Waterfall strands should remain physically connected to impact.
+}
+function impact(cx,p,t,order){
+ if(p<.01)return;
+ const spread=38+64*p,strength=.3+.7*p;
+ ctx.save();ctx.globalCompositeOperation='screen';
+ for(let k=0;k<16;k++){
+  const radius=8+k*3.9+2*Math.sin(t*3+k*.74),yy=171+k*.9;
+  ctx.beginPath();ctx.ellipse(cx,yy,radius*(.32+p*.55),2+k*.15,0,0,Math.PI*2);
+  ctx.strokeStyle='rgba(113,224,255,'+(strength*(.11-.003*k))+')';ctx.lineWidth=1.1;ctx.stroke();
+ }
+ // Pulled from image itself; animated bright impact shifts down and sideways.
+ if(source.complete&&source.naturalWidth){
+  ctx.globalAlpha=.1+.33*p;ctx.drawImage(source,214,133,225,67,cx-spread,151,spread*2,60);
+ }
+ ctx.restore();
+}
+function foam(p,t){
+ if(p<.016)return;
+ const count=Math.floor(24+230*p),middle=331,spread=23+184*p;
+ ctx.save();ctx.globalCompositeOperation='screen';
+ for(let i=0;i<count;i++){
+   const q=particles[i],phase=(q.phase+t*(.13+q.height*.22))%1;
+   const x=middle+(q.offset-.5)*spread*2+Math.sin(phase*8+q.sway*8)*10*p;
+   const y=183-((1-phase)*phase*94*p)+(phase*27)+(q.height-.5)*21;
+   const radius=(.65+q.size*3.5)*(1-phase*.36)*(.36+.64*p);
+   let opacity=(.17+.76*Math.sin(Math.PI*phase))*(.36+.63*p);
+   ctx.beginPath();ctx.ellipse(x,y,radius*1.3,radius*.68,q.wing*Math.PI,0,2*Math.PI);
+   ctx.fillStyle=i%7===0?'rgba(214,253,255,'+opacity+')':'rgba(57,190,255,'+(opacity*.78)+')';ctx.fill();
+   if(i%3===0){ctx.beginPath();ctx.arc(x-2,y-radius*.7,radius*.36,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+(opacity*.8)+')';ctx.fill()}
+ }
+ ctx.restore();
+}
+function spray(p,t){
+ if(p<.08)return;
+ ctx.save();ctx.globalCompositeOperation='screen';
+ const center=330,count=Math.floor(12+55*p);
+ for(let i=0;i<count;i++){
+  let o=droplets[i],u=(o.p+t*(.11+o.jitter*.15))%1;
+  let dx=(o.x-.5)*235*p+Math.sin(t*2+i)*2.4,dy=-Math.sin(u*Math.PI)*91*p+u*22;
+  const x=center+dx, y=184+dy,sz=.6+o.sz*2.8*p,alpha=.1+.78*Math.sin(Math.PI*u)*p;
+  ctx.beginPath();ctx.ellipse(x,y,sz*.67,sz*1.3,o.side*.9,0,Math.PI*2);
+  ctx.fillStyle='rgba(166,236,255,'+alpha+')';ctx.fill();
+ }
+ ctx.restore();
+}
+function ripples(p,t){
+ ctx.save();ctx.globalCompositeOperation='screen';
+ for(let i=0;i<22;i++){
+  let b=(i/22+t*.13)%1,amp=(.2+.8*p),center=331+(rand(i,41)-.5)*(160+300*p);
+  let y=213+b*27,rad=(13+b*45)*(.5+p);
+  ctx.beginPath();ctx.ellipse(center,y,rad,1.6+b*1.7,0,Math.PI*1.08,Math.PI*1.92);
+  ctx.strokeStyle='rgba(126,231,255,'+((1-b)*.27*amp)+')';ctx.lineWidth=.5+b*1.4;ctx.stroke();
+ }
+ ctx.restore();
+}
+function glow(p,t){if(p<.01)return;ctx.save();ctx.globalCompositeOperation='screen';ctx.globalAlpha=.18+.16*p;
+ const x=330,y=151;const g=ctx.createRadialGradient(x,y,8,x,y,170);g.addColorStop(0,'rgba(71,234,255,.58)');g.addColorStop(.36,'rgba(27,170,244,.24)');g.addColorStop(1,'rgba(5,44,94,0)');ctx.fillStyle=g;ctx.fillRect(185,33,316,206);ctx.restore();}
+function render(t){let p=current;drawBase(p,t);glow(p,t);waterfall(252,p,t,0);waterfall(344,p,t+.4,1);impact(287,p,t,0);impact(381,p,t,1);ripples(p,t);foam(p,t);spray(p,t);}
+function tick(ms){let dt=Math.min(.06,Math.max(0,(ms-last)/1000));last=ms;clock+=dt;current+=(target-current)*Math.min(1,dt*2.6);if(source.complete&&source.naturalWidth)render(clock);if(running)raf=requestAnimationFrame(tick)}
+source.onload=()=>{render(clock);if(running){last=performance.now();raf=requestAnimationFrame(tick)}};source.onerror=()=>{ctx.fillStyle='#041c30';ctx.fillRect(0,0,W,H);ctx.fillStyle='#d8f7ff';ctx.font='24px sans-serif';ctx.fillText('Reference texture not available',180,135)};
+if(reduced){running=false;pausedUI()}else{running=false;source.onload=()=>{render(0);running=true;pausedUI();last=performance.now();raf=requestAnimationFrame(tick)}};
+})();
+</script>
+</body></html>
